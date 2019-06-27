@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import colors as mcolors
 
-__all__ = ["plot_twin_axis", "loglog_twins"]
 
 color_names = np.array(list(mcolors.CSS4_COLORS.keys()))
 color_size = len(color_names)
