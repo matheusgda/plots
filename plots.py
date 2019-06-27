@@ -7,6 +7,34 @@ from matplotlib import colors as mcolors
 color_names = np.array(list(mcolors.CSS4_COLORS.keys()))
 color_size = len(color_names)
 
+
+# Plot complex numbers in Argand-Gauss plane.
+#
+def plot_complex(n):
+    plt.stem(np.real(n), np.imag(n))
+    plt.Circle((0,0), radius=1)
+    plt.show()
+
+
+# Simple wrapper for pyplot.
+#
+def plot(*args, **kwargs):
+    plt.plot(*args, **kwargs)
+    plt.show()
+
+
+# Plot axis split vertical-wise.
+#
+def vertical_plots(curves, labels, title="Vertical Plots"):
+    n = len(curves)
+    fig, axs = plt.subplots(n)
+    fig.suptitle(title)
+    for i in range(len(axs)):
+        axs[i].plot(*curves[i], label=labels[i])
+        axs[i].grid(True)
+    plt.show()
+
+
 def plot_twin_axis(x1_axis, y1_axis, x2_axis, y2_axis, n, 
 	x1_label, x2_label, y_label, fig_name, plot_title):
     fig, zax = plt.subplots()
