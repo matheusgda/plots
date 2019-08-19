@@ -101,19 +101,24 @@ def color_curves_artist(x_axis, color_axis, labels=None,
 
     num_curves = len(color_axis)
     colors = ['C' + str(c) for c in range(num_curves)]
+    # colors = color_names[:num_curves]
     plots = list()
 
     for c in range(num_curves):
         curves = color_axis[c]
-        c_color = colors[c]
-        c_label = labels[c]
+        kwargs = {'color': colors[c]}
+
         if isinstance(curves, tuple):
             for curve in curves[1:]:
-                plot, = plt.plot(x_axis, curve, color=c_color)
+                print(curve)
+                plot, = plt.plot(x_axis, curve, **kwargs)
                 plots.append(plot)
             curves = curves[0]
 
-        plot, = plt.plot(x_axis, curves, color=c_color, label=c_label)
+        if labels is not None:
+            kwargs['label'] = labels[c]
+
+        plot, = plt.plot(x_axis, curves, **kwargs)
         plots.append(plot)
 
     if plot_title is not None:
@@ -122,7 +127,8 @@ def color_curves_artist(x_axis, color_axis, labels=None,
         plt.xlabel(x_label)
     if y_label is not None:
         plt.ylabel(y_label)
-    plt.legend(handles=plots)
+    if labels is not None:
+        plt.legend(handles=plots)
 
 
 
