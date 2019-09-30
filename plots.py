@@ -108,7 +108,7 @@ def color_curves_artist(x_axis, color_axis, labels=None,
         curves = color_axis[c]
         kwargs = {'color': colors[c]}
 
-        if isinstance(curves, tuple):
+        if isinstance(curves, (np.ndarray, tuple)):
             for curve in curves[1:]:
                 print(curve)
                 plot, = plt.plot(x_axis, curve, **kwargs)
