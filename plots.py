@@ -81,11 +81,11 @@ def loglog_twins(x1_axis, y1_axis, x2_axis, y2_axis, n,
 #  of curves is an element of color_axis, all the curves inside that tuple will
 #  have the same color.
 def plot_color_curves(x_axis, color_axis, labels=None, fig_name="figure.png",
-                      plot_title=None, x_label=None, y_label=None,
+                      marker=None, plot_title=None, x_label=None, y_label=None,
                       savefig=True):
 
     color_curves_artist(
-        x_axis, color_axis, labels, plot_title, x_label, y_label)
+        x_axis, color_axis, labels, marker, plot_title, x_label, y_label)
 
     plt.grid(True)  # coller
     if savefig:
@@ -95,7 +95,7 @@ def plot_color_curves(x_axis, color_axis, labels=None, fig_name="figure.png",
         plt.show()
 
 
-def color_curves_artist(x_axis, color_axis, labels=None, 
+def color_curves_artist(x_axis, color_axis, labels=None, marker=None,
                         plot_title=None, x_label=None, y_label=None):
 
     num_curves = len(color_axis)
@@ -106,6 +106,10 @@ def color_curves_artist(x_axis, color_axis, labels=None,
     for c in range(num_curves):
         curves = color_axis[c]
         kwargs = {'color': colors[c]}
+
+        if marker is not None:
+            kwargs['marker'] = marker[c]
+            kwargs['markersize'] = 4
 
         if isinstance(curves, (np.ndarray, tuple)):
             for curve in curves[1:]:
