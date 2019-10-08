@@ -35,8 +35,8 @@ def vertical_plots(curves, labels, title="Vertical Plots"):
     plt.show()
 
 
-def plot_twin_axis(x1_axis, y1_axis, x2_axis, y2_axis, n, 
-	x1_label, x2_label, y_label, fig_name, plot_title):
+def plot_twin_axis(x1_axis, y1_axis, x2_axis, y2_axis, n,
+                   x1_label, x2_label, y_label, fig_name, plot_title):
     fig, zax = plt.subplots()
     zax.plot(x1_axis, y1_axis, 'b.')
     zax.set_ylabel(y_label, color='b')
@@ -55,8 +55,9 @@ def plot_twin_axis(x1_axis, y1_axis, x2_axis, y2_axis, n,
     fig.tight_layout()
     plt.savefig(fig_name)
 
-def loglog_twins(x1_axis, y1_axis, x2_axis, y2_axis, n, 
-    x1_label, x2_label, y_label, fig_name, plot_title):
+
+def loglog_twins(x1_axis, y1_axis, x2_axis, y2_axis, n,
+                 x1_label, x2_label, y_label, fig_name, plot_title):
     fig, zax = plt.subplots()
     zax.loglog(x1_axis, y1_axis, 'b.')
     zax.set_ylabel(y_label, color='b')
@@ -76,18 +77,17 @@ def loglog_twins(x1_axis, y1_axis, x2_axis, y2_axis, n,
     plt.savefig(fig_name)
 
 
-
 # Plot mutliple curves sharing the same axis with different colors. If a tuple
 #  of curves is an element of color_axis, all the curves inside that tuple will
 #  have the same color.
 def plot_color_curves(x_axis, color_axis, labels=None, fig_name="figure.png",
-                      plot_title=None, x_label=None, y_label=None,
-                      savefig = True):
-    
-    color_curves_artist(
-        x_axis, color_axis, labels, plot_title, x_label, y_label)
+                      marker=None, plot_title=None, x_label=None, y_label=None,
+                      savefig=True):
 
-    plt.grid(True) # coller
+    color_curves_artist(
+        x_axis, color_axis, labels, marker, plot_title, x_label, y_label)
+
+    plt.grid(True)  # coller
     if savefig:
         plt.savefig(fig_name)
         plt.clf()
@@ -95,8 +95,7 @@ def plot_color_curves(x_axis, color_axis, labels=None, fig_name="figure.png",
         plt.show()
 
 
-
-def color_curves_artist(x_axis, color_axis, labels=None, 
+def color_curves_artist(x_axis, color_axis, labels=None, marker=None,
                         plot_title=None, x_label=None, y_label=None):
 
     num_curves = len(color_axis)
@@ -107,6 +106,10 @@ def color_curves_artist(x_axis, color_axis, labels=None,
     for c in range(num_curves):
         curves = color_axis[c]
         kwargs = {'color': colors[c]}
+
+        if marker is not None:
+            kwargs['marker'] = marker[c]
+            kwargs['markersize'] = 4
 
         if isinstance(curves, (np.ndarray, tuple)):
             for curve in curves[1:]:
@@ -131,10 +134,9 @@ def color_curves_artist(x_axis, color_axis, labels=None,
         plt.legend(handles=plots)
 
 
-
 def generic_curves(color_axis, labels=None, fig_name="figure.png",
-                      plot_title=None, x_label=None, y_label=None,
-                      plot_function=plt.plot, savefig=True):
+                   plot_title=None, x_label=None, y_label=None,
+                   plot_function=plt.plot, savefig=True):
     fig = plt.figure()
     num_curves = len(color_axis)
     colors = ['C' + str(c) for c in range(num_curves)]
