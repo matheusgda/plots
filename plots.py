@@ -113,7 +113,6 @@ def color_curves_artist(x_axis, color_axis, labels=None, marker=None,
 
         if isinstance(curves, (np.ndarray, tuple)):
             for curve in curves[1:]:
-                print(curve)
                 plot, = plt.plot(x_axis, curve, **kwargs)
                 plots.append(plot)
             curves = curves[0]
