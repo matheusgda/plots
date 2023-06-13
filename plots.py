@@ -82,10 +82,11 @@ def loglog_twins(x1_axis, y1_axis, x2_axis, y2_axis, n,
 #  have the same color.
 def plot_color_curves(x_axis, color_axis, labels=None, fig_name="figure.png",
                       marker=None, plot_title=None, x_label=None, y_label=None,
-                      savefig=True):
+                      savefig=True, plot_fun=plt.plot, fontsize=8):
 
     color_curves_artist(
-        x_axis, color_axis, labels, marker, plot_title, x_label, y_label)
+        x_axis, color_axis, labels, marker, plot_title, x_label, y_label,
+        plot_fun, fontsize)
 
     plt.grid(True)  # coller
     if savefig:
@@ -96,12 +97,16 @@ def plot_color_curves(x_axis, color_axis, labels=None, fig_name="figure.png",
 
 
 def color_curves_artist(x_axis, color_axis, labels=None, marker=None,
-                        plot_title=None, x_label=None, y_label=None):
+                        plot_title=None, x_label=None, y_label=None,
+                        plot_fun=plt.plot, fontsize=8):
 
     num_curves = len(color_axis)
     colors = ['C' + str(c) for c in range(num_curves)]
     # colors = color_names[:num_curves]
     plots = list()
+
+    plt.tick_params(axis='x', labelsize=fontsize)
+    plt.tick_params(axis='y', labelsize=fontsize)
 
     for c in range(num_curves):
         curves = color_axis[c]
@@ -109,34 +114,33 @@ def color_curves_artist(x_axis, color_axis, labels=None, marker=None,
 
         if marker is not None:
             kwargs['marker'] = marker[c]
-            kwargs['markersize'] = 4
+            kwargs['markersize'] = 6
 
-        if isinstance(curves, (np.ndarray, tuple)):
+        if isinstance(curves, (tuple)):
             for curve in curves[1:]:
-                print(curve)
-                plot, = plt.plot(x_axis, curve, **kwargs)
+                plot, = plt.semilogy(x_axis, curve, **kwargs)
                 plots.append(plot)
             curves = curves[0]
 
         if labels is not None:
             kwargs['label'] = labels[c]
 
-        plot, = plt.plot(x_axis, curves, **kwargs)
+        plot, = plot_fun(x_axis, curves, **kwargs, alpha=1.0, lw=0.5)
         plots.append(plot)
 
     if plot_title is not None:
         plt.title(plot_title)
     if x_label is not None:
-        plt.xlabel(x_label)
+        plt.xlabel(x_label, fontsize=fontsize)
     if y_label is not None:
-        plt.ylabel(y_label)
+        plt.ylabel(y_label, fontsize=fontsize)
     if labels is not None:
-        plt.legend(handles=plots)
+        plt.legend(handles=plots, prop={"size": fontsize})
 
 
 def generic_curves(color_axis, labels=None, fig_name="figure.png",
                    plot_title=None, x_label=None, y_label=None,
-                   plot_function=plt.plot, savefig=True):
+                   plot_function=plt.plot, savefig=True, fontsize=8):
     fig = plt.figure()
     num_curves = len(color_axis)
     colors = ['C' + str(c) for c in range(num_curves)]
@@ -152,11 +156,11 @@ def generic_curves(color_axis, labels=None, fig_name="figure.png",
     if plot_title != None:
         plt.title(plot_title, y=1.16)
     if x_label != None:
-        plt.xlabel(x_label)
+        plt.xlabel(x_label, fontsize=fontsize)
     if y_label != None:
-        plt.ylabel(y_label)
+        plt.ylabel(y_label, fontsize=fontsize)
     plt.title(plot_title)#, y=1.16)
-    plt.legend()
+    plt.legend(prop={"size": fontsize})
     plt.grid(True) # coller
 
     if savefig:
