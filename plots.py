@@ -118,7 +118,7 @@ def color_curves_artist(x_axis, color_axis, labels=None, marker=None,
 
         if isinstance(curves, (tuple)):
             for curve in curves[1:]:
-                plot, = plt.semilogy(x_axis, curve, **kwargs)
+                plot, = plot_fun(x_axis, curve, **kwargs)
                 plots.append(plot)
             curves = curves[0]
 
